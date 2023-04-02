@@ -11,6 +11,7 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
     React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState(null);
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -24,6 +25,17 @@ function App() {
     setIsEditAvatarPopupOpen(true);
   }
 
+  function handleCardClick(card) {
+    setSelectedCard(card);
+  }
+
+  function closeAllPopups() {
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setSelectedCard(null);
+  }
+
   return (
     <body className="root">
       <>
@@ -33,39 +45,16 @@ function App() {
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
         onEditAvatar={handleEditAvatarClick}
+        onCardClick={handleCardClick}
       />
-      <template id="card">
-        <li className="element">
-          <img
-            src="#"
-            className="element__image"
-            alt=""
-          />
-          <button
-            className="element__button-delete"
-            aria-label="удалить карточку"
-            type="button"
-          ></button>
-          <div className="element__footer">
-            <h2 className="element__title">#</h2>
-            <div className="element__like-container">
-              <button
-                className="element__button-like"
-                aria-label="поставить лайк"
-                name="addLike"
-                type="button"
-              ></button>
-              <h3 className="element__like-number">0</h3>
-            </div>
-          </div>
-        </li>
-      </template>
+
       <Footer />
       <PopupWithForm
         name="profile"
         buttonText="Сохранить"
         title="Редактировать профиль"
         isOpen={isEditProfilePopupOpen}
+        onClose={closeAllPopups}
       >
         <input
           id="name-input"
@@ -99,6 +88,7 @@ function App() {
         title="Новое место"
         buttonText="Создать"
         isOpen={isAddPlacePopupOpen}
+        onClose={closeAllPopups}
       >
         <input
           name="name"
@@ -129,6 +119,7 @@ function App() {
         buttonText="Сохранить"
         title="Обновить аватар"
         isOpen={isEditAvatarPopupOpen}
+        onClose={closeAllPopups}
       >
         <input
           id="avatar"
@@ -145,8 +136,12 @@ function App() {
         name="delete"
         title="Вы уверены?"
         buttonText="Да"
+        onClose={closeAllPopups}
       ></PopupWithForm>
-      <ImagePopup />
+      <ImagePopup
+        card={selectedCard}
+        onClose={closeAllPopups}
+      />
     </body>
   );
 }
