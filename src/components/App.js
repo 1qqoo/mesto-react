@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "./Header.js";
 import Main from "./Main.js";
 import Footer from "./Footer.js";
@@ -6,12 +6,10 @@ import PopupWithForm from "./PopupWithForm.js";
 import ImagePopup from "./ImagePopup.js";
 
 function App() {
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
-    React.useState(false);
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
-    React.useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState(null);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -63,8 +61,8 @@ function App() {
           type="text"
           autocomplete="off"
           placeholder="Введите имя"
-          minlength="2"
-          maxlength="40"
+          minLength="2"
+          maxLength="40"
           required
         />
         <span className="name-input-error popup__input-error">
@@ -77,8 +75,8 @@ function App() {
           type="text"
           autocomplete="off"
           placeholder="Расскажите о себе"
-          minlength="2"
-          maxlength="200"
+          minLength="2"
+          maxLength="200"
           id="job-input"
         />
         <span className="job-input-error popup__input-error"></span>
@@ -98,8 +96,8 @@ function App() {
           placeholder="Название"
           required
           id="title-input"
-          minlength="2"
-          maxlength="30"
+          minLength="2"
+          maxLength="30"
         />
         <span className="title-input-error popup__input-error"></span>
 

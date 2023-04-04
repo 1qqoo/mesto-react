@@ -1,16 +1,16 @@
 import React from "react";
 
-function Card(props) {
+function Card({ card, onCardClick }) {
   function handleCardClick() {
-    props.onCardClick(props.card);
+    onCardClick(card);
   }
 
   return (
     <li className="element">
       <img
-        src={props.card.link}
+        src={card.link}
         className="element__image"
-        alt={props.card.name}
+        alt={card.name}
         onClick={handleCardClick}
       />
       <button
@@ -19,7 +19,7 @@ function Card(props) {
         type="button"
       ></button>
       <div className="element__footer">
-        <h2 className="element__title">{props.card.name}</h2>
+        <h2 className="element__title">{card.name}</h2>
         <div className="element__like-container">
           <button
             className="element__button-like"
@@ -27,7 +27,7 @@ function Card(props) {
             name="addLike"
             type="button"
           ></button>
-          <h3 className="element__like-number">{props.card.likes.length}</h3>
+          <h3 className="element__like-number">{card.likes.length}</h3>
         </div>
       </div>
     </li>

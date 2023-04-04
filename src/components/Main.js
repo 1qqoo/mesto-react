@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import api from "../utils/Api";
 import Card from "./Card";
 
-function Main(props) {
-  const [userName, setUserName] = React.useState();
-  const [userDescription, setUserDescription] = React.useState();
-  const [userAvatar, setUserAvatar] = React.useState();
-  const [cards, setCards] = React.useState([]);
+function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
+  const [userName, setUserName] = useState("");
+  const [userDescription, setUserDescription] = useState("");
+  const [userAvatar, setUserAvatar] = useState("");
+  const [cards, setCards] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     Promise.all([api.getUserInfo(), api.getAllCards()])
       .then(([data, cards]) => {
         setUserName(data.name);
@@ -26,7 +26,7 @@ function Main(props) {
       <section className="profile">
         <button
           className="profile__button-edit"
-          onClick={props.onEditAvatar}
+          onClick={onEditAvatar}
         >
           <img
             className="profile__avatar"
@@ -39,7 +39,7 @@ function Main(props) {
             <h1 className="profile__title">{userName}</h1>
             <button
               className="profile__button"
-              onClick={props.onEditProfile}
+              onClick={onEditProfile}
               aria-label="Кнопка редактирования профиля"
               type="button"
             ></button>
@@ -48,7 +48,7 @@ function Main(props) {
         </div>
         <button
           className="profile__add-card"
-          onClick={props.onAddPlace}
+          onClick={onAddPlace}
           type="button"
           aria-label="Кнопка добавления"
         ></button>
@@ -58,7 +58,7 @@ function Main(props) {
           {cards.map((card) => (
             <Card
               card={card}
-              onCardClick={props.onCardClick}
+              onCardClick={onCardClick}
               key={card._id}
             />
           ))}
