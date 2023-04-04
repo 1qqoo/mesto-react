@@ -14,7 +14,7 @@ function PopupWithForm({ name, isOpen, onClose, title, children, buttonText }) {
         <form
           className="popup__form popup__form-profile"
           name={name}
-          novalidate
+          noValidate
         >
           {children}
           <button
