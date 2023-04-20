@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import api from "../utils/Api";
 import Card from "./Card";
+import CurrentUserContext from "../contexts/CurrentUserContext.js";
 
 function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
-  const [userName, setUserName] = useState("");
-  const [userDescription, setUserDescription] = useState("");
-  const [userAvatar, setUserAvatar] = useState("");
+  // const [userName, setUserName] = useState("");
+  // const [userDescription, setUserDescription] = useState("");
+  // const [userAvatar, setUserAvatar] = useState("");
   const [cards, setCards] = useState([]);
+  const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getAllCards()])
-      .then(([data, cards]) => {
-        setUserName(data.name);
-        setUserDescription(data.about);
-        setUserAvatar(data.avatar);
+    api
+      .getAllCards()
+      .then((cards) => {
         setCards(cards);
       })
       .catch((err) => {
@@ -30,13 +30,13 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
         >
           <img
             className="profile__avatar"
-            src={userAvatar}
+            src={currentUser.avatar}
             alt="Ваша фоточка"
           />
         </button>
         <div className="profile__info">
           <div className="profile__edit">
-            <h1 className="profile__title">{userName}</h1>
+            <h1 className="profile__title">{currentUser.name}</h1>
             <button
               className="profile__button"
               onClick={onEditProfile}
@@ -44,7 +44,7 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
               type="button"
             ></button>
           </div>
-          <p className="profile__subtitle">{userDescription}</p>
+          <p className="profile__subtitle">{currentUser.about}</p>
         </div>
         <button
           className="profile__add-card"

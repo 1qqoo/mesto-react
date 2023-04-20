@@ -8,6 +8,9 @@ function Header() {
         src={logo}
         alt="Логотип"
       />
+      {/* <button className="header__button">
+        <p className="header__button-text">Регистрация</p>
+      </button> */}
     </header>
   );
 }
