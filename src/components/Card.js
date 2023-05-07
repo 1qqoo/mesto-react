@@ -1,9 +1,31 @@
-import React from "react";
+import { useContext } from "react";
+import CurrentUserContext from "../contexts/CurrentUserContext.js";
 
-function Card({ card, onCardClick }) {
+function Card({ card, onCardClick, onCardLike, onCardDelete }) {
+  const currentUser = useContext(CurrentUserContext);
+
   function handleCardClick() {
     onCardClick(card);
   }
+
+  function handleLikeClick() {
+    onCardLike(card);
+  }
+
+  function handleDeleteClick() {
+    onCardDelete(card);
+  }
+
+  const isOwn = card.owner._id === currentUser._id;
+  const cardDeleteButtonVisabilityAttribute = {
+    visibility: isOwn ? "visible" : "hidden",
+  };
+
+  const isLiked = card.likes.some((like) => like._id === currentUser._id);
+
+  const cardLikeButtonClassName = `element__button-like ${
+    isLiked && "element__button-like_active"
+  }`;
 
   return (
     <li className="element">
@@ -13,20 +35,27 @@ function Card({ card, onCardClick }) {
         alt={card.name}
         onClick={handleCardClick}
       />
-      <button
-        className="element__button-delete"
-        aria-label="удалить карточку"
-        type="button"
-      ></button>
+
+      {isOwn && (
+        <button
+          className="element__button-delete"
+          style={cardDeleteButtonVisabilityAttribute}
+          onClick={handleDeleteClick}
+          aria-label="удалить карточку"
+          type="button"
+        />
+      )}
+
       <div className="element__footer">
         <h2 className="element__title">{card.name}</h2>
         <div className="element__like-container">
           <button
-            className="element__button-like"
+            className={cardLikeButtonClassName}
             aria-label="поставить лайк"
             name="addLike"
             type="button"
-          ></button>
+            onClick={handleLikeClick}
+          />
           <h3 className="element__like-number">{card.likes.length}</h3>
         </div>
       </div>

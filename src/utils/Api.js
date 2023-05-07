@@ -67,6 +67,14 @@ class Api {
       body: JSON.stringify(data),
     }).then(this._handleReply);
   }
+
+  changeLikeCardStatus(id, isLiked) {
+    if (isLiked) {
+      return this.setLike(id);
+    } else {
+      return this.deleteLike(id);
+    }
+  }
 }
 
 const api = new Api({

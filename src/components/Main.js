@@ -1,25 +1,17 @@
-import React, { useState, useEffect, useContext } from "react";
-import api from "../utils/Api";
+import React, { useContext } from "react";
 import Card from "./Card";
 import CurrentUserContext from "../contexts/CurrentUserContext.js";
 
-function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
-  // const [userName, setUserName] = useState("");
-  // const [userDescription, setUserDescription] = useState("");
-  // const [userAvatar, setUserAvatar] = useState("");
-  const [cards, setCards] = useState([]);
+function Main({
+  onEditAvatar,
+  onEditProfile,
+  onAddPlace,
+  onCardClick,
+  cards,
+  onCardLike,
+  onCardDelete,
+}) {
   const currentUser = useContext(CurrentUserContext);
-
-  useEffect(() => {
-    api
-      .getAllCards()
-      .then((cards) => {
-        setCards(cards);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   return (
     <main className="content">
@@ -59,6 +51,8 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick }) {
             <Card
               card={card}
               onCardClick={onCardClick}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
               key={card._id}
             />
           ))}
