@@ -32,9 +32,16 @@ function App() {
   function handleCardLike(card) {
     const isLiked = card.likes.some((like) => like._id === currentUser._id);
 
-    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
-    });
+    api
+      .changeLikeCardStatus(card._id, !isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCard : c))
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   function handleCardDelete(card) {
@@ -107,6 +114,26 @@ function App() {
     setSelectedCard(null);
   }
 
+  const isOpen =
+    isEditAvatarPopupOpen ||
+    isEditProfilePopupOpen ||
+    isAddPlacePopupOpen ||
+    selectedCard;
+
+  useEffect(() => {
+    function closeByEscape(evt) {
+      if (evt.key === "Escape") {
+        closeAllPopups();
+      }
+    }
+    if (isOpen) {
+      document.addEventListener("keydown", closeByEscape);
+      return () => {
+        document.removeEventListener("keydown", closeByEscape);
+      };
+    }
+  }, [isOpen]);
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="root">
@@ -143,7 +170,7 @@ function App() {
           title="Вы уверены?"
           buttonText="Да"
           onClose={closeAllPopups}
-        ></PopupWithForm>
+        />
         <ImagePopup
           card={selectedCard}
           onClose={closeAllPopups}

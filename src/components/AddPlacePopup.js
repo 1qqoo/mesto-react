@@ -1,30 +1,18 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
+import { useForm } from "./hooks/useForm";
 
 const AddPlacePopup = (props) => {
-  const [name, setName] = useState("");
-  const [link, setLink] = useState("");
+  const { values, handleChange, setValues } = useForm({});
 
   function handleSumbit(evt) {
     evt.preventDefault();
-    props.onAddPlace({
-      name,
-      link,
-    });
+    props.onAddPlace(values);
   }
 
   useEffect(() => {
-    setName("");
-    setLink("");
-  }, [props.isOpen]);
-
-  function hadleChangeName(evt) {
-    setName(evt.target.value);
-  }
-
-  function hadleChangeLink(evt) {
-    setLink(evt.target.value);
-  }
+    if (!props.isOpen) setValues({});
+  }, [props.isOpen, setValues]);
 
   return (
     <PopupWithForm
@@ -39,13 +27,14 @@ const AddPlacePopup = (props) => {
         name="name"
         className="popup__input popup__input_type_title"
         type="text"
-        autocomplete="off"
+        autoComplete="off"
         placeholder="Название"
         required
         id="title-input"
         minLength="2"
         maxLength="30"
-        onChange={hadleChangeName}
+        onChange={handleChange}
+        value={values.name || ""}
       />
       <span className="title-input-error popup__input-error"></span>
 
@@ -53,11 +42,12 @@ const AddPlacePopup = (props) => {
         name="link"
         className="popup__input popup__input_type_image"
         type="url"
-        autocomplete="off"
+        autoComplete="off"
         placeholder="Ссылка на картинку"
         required
         id="url-input"
-        onChange={hadleChangeLink}
+        onChange={handleChange}
+        value={values.link || ""}
       />
       <span className="url-input-error popup__input-error"></span>
     </PopupWithForm>
