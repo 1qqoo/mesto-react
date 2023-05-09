@@ -58,7 +58,7 @@ function EditFrofilePopup(props) {
         className="popup__input popup__input_el_descr"
         name="about"
         type="text"
-        placeholder="О себе подробно"
+        placeholder="О себе"
         minLength="2"
         maxLength="200"
         value={description || ""}
