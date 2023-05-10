@@ -23,7 +23,6 @@ function PopupWithForm({
           className="popup__form popup__form-profile"
           name={name}
           onSubmit={onSubmit}
-          noValidate
         >
           {children}
           <button

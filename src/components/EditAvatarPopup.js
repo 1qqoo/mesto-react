@@ -30,7 +30,7 @@ const EditAvatarPopup = (props) => {
         className="popup__input popup__input_type_avatar"
         type="url"
         ref={refInput}
-        autocomplete="off"
+        autoComplete="off"
         placeholder="Ссылка на картинку"
         required
       />
